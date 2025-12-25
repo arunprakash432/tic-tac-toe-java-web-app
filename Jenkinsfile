@@ -1,15 +1,18 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven'
-        jdk 'JDK21'
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
     stages {
-        stage('Checkout') {
+        stage('Verify Java') {
             steps {
-                checkout scm
+                sh 'echo JAVA_HOME=$JAVA_HOME'
+                sh 'java -version'
+                sh 'javac -version'
+                sh 'mvn -v'
             }
         }
 
